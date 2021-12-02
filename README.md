@@ -1,9 +1,9 @@
 <p align="center">
-    <h3 align="center">elp-cascader</h3>
+    <h3 align="center">lazy-cascader</h3>
     <br>
     <p align="center">
-        <a href="https://www.npmjs.com/package/@vueblocks/elp-cascader"><img src="https://img.shields.io/npm/v/@vueblocks/elp-cascader?maxAge=2592000"></a>
-        <a href="https://www.npmjs.com/package/@vueblocks/elp-cascader"><img src="https://img.shields.io/npm/dt/@vueblocks/elp-cascader"></a>
+        <a href="https://www.npmjs.com/package/@lllhys/lazy-cascader"><img src="https://img.shields.io/npm/v/@vueblocks/elp-cascader?maxAge=2592000"></a>
+        <a href="https://www.npmjs.com/package/@lllhys/lazy-cascader"><img src="https://img.shields.io/npm/dt/@vueblocks/elp-cascader"></a>
         <a href="https://github.com/vueblocks/elp-cascader/stargazers"><img src="https://img.shields.io/github/stars/vueblocks/elp-cascader.svg"></a>
     </p>
     <p align="center">
@@ -11,7 +11,10 @@
     </p>
 </p>
 
-# @vueblocks/elp-cascader
+# @lllhys/lazy-cascader
+
+> fork至[vueblocks/elp-cascader](<https://github.com/vueblocks/elp-cascader>), 并添加了infinite scroll。
+
 
 > 基于`element-ui`和`vue-virtual-scroller`的级联选择器，用虚拟列表的方式逐级渲染列表。适用于数据量较大的场景。
 
@@ -24,9 +27,9 @@
 ## install 安装
 
 ```shell
-npm i @vueblocks/elp-cascader --save
+npm i @lllhys/lazy-cascader --save
 # or
-yarn add @vueblocks/elp-cascader
+yarn add @lllhys/lazy-cascader
 ```
 
 ## 全局调用
@@ -34,8 +37,8 @@ yarn add @vueblocks/elp-cascader
 在main.js中写入下面的代码
 
 ```javascript
-import '@vueblocks/elp-cascader/lib/elp-cascader.css'
-import ElpCascader from '@vueblocks/cascader'
+import '@lllhys/lazy-cascader/lib/elp-cascader.css'
+import ElpCascader from '@lllhys/lazy-cascader'
 Vue.use(ElpCascader)
 ```
 
@@ -80,8 +83,9 @@ export default {
 2. el-cascader多选状态下，第一个搜索词选中内容后，搜索词被清空
 
     解决逻辑：保留第一个搜索词
+3. 支持infinite scroll下拉后加载新的分页数据
 
-3. props中新增属性
+4. props中新增属性
 
 | 参数 | 说明 | 类型 | 可选值 | 默认值 |
 | --- | --- | --- | --- | --- |
@@ -91,8 +95,11 @@ export default {
 | checkAll | 多选且checkStrictly为true时全选 | boolean | - | false |
 | panelSearch | 面板搜索 | boolean | - | false |
 | expandPanels | 默认展开面板数 | number | - | 0 |
+| infiniteScroll | 是否开启无限滚动 | number | - | false |
 
-4. Cascader、CascaderPanel 新增事件
+5. 开启lazy无限滚动才会生效，lazyLoad函数修改，参数加入pageNo，回调数据变为```{list: [], isEnd: Boolean}```
+
+7. Cascader、CascaderPanel 新增事件
 
 | 参数 | 说明 | 回调参数
 | --- | --- | --- |

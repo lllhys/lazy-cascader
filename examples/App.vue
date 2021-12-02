@@ -49,7 +49,7 @@ export default {
     console.log('Mock Start')
     console.time('MockStart')
     const _mock = Mock.mock({
-      'array|200': [
+      'array|20': [
         {
           label: '@csentence(6)',
           value: '@string()',
@@ -84,17 +84,27 @@ export default {
       options: _mock.array,
       props: {
         multiple: false,
+        infiniteScroll: true,
         checkStrictly: false,
         selectWithExpand: false,
         panelSearch: true,
-        panelLabels: ['一级类目', '二级类目', '三级类目']
-        // lazy: true,
-        // lazyLoad (node, resolve) {
-        //   // const { level } = node
-        //   setTimeout(() => {
-        //     resolve(_singleMock)
-        //   }, 1000)
-        // }
+        panelLabels: ['一级类目', '二级类目', '三级类目'],
+        lazy: true,
+        lazyLoad (node, resolve) {
+
+          const { level } = node
+          setTimeout(() => {
+            const nodes = Array.from({ length: level + 11 }).map(() => ({
+              value: String(++id),
+              label: `选项${id}`,
+              // disabled: true,
+              leaf: level >= 3
+            }))
+            // resolve(nodes)
+            // 通过调用resolve将子节点数据返回，通知组件数据加载完成
+            resolve({list: nodes, isEnd: node.pageNo === 2})
+          }, 1000)
+        }
         // expandTrigger: 'hover'
       },
       // lazy cascader
@@ -107,7 +117,8 @@ export default {
         // { label: '选项1', value: '1', children: [{ label: '选项2', value: '2' }] }
       ],
       lazyProps: {
-        lazy: true,
+        // lazy: true,
+        infiniteScroll: true,
         multiple: true,
         checkStrictly: false,
         lazyMultiCheck: true,
@@ -127,23 +138,26 @@ export default {
       },
       lazyMutiProps: {
         lazy: true,
+        infiniteScroll: true,
         multiple: true,
-        checkStrictly: true,
+        // checkStrictly: true,
         panelSearch: true,
         checkAll: true,
         panelLabels: ['数据连接', '分类', '数据源'],
         lazyLoad (node, resolve) {
+          console.log('aaaaaa', node)
           const { level } = node
           setTimeout(() => {
-            const nodes = Array.from({ length: level + 1 }).map(() => ({
+            const nodes = Array.from({ length: level + 11 }).map(() => ({
               value: String(++id),
               label: `选项${id}`,
-              disabled: true,
+              // disabled: true,
               leaf: level >= 3
             }))
+            // resolve(nodes)
             // 通过调用resolve将子节点数据返回，通知组件数据加载完成
-            resolve(nodes)
-          }, 1000)
+            resolve({list: nodes, isEnd: node.pageNo === 2})
+          }, 200)
         }
       }
     }

@@ -33,6 +33,19 @@ const getMenuIndex = (el) => {
   return Number(pieces[pieces.length - 2])
 }
 
+
+/**
+ * 获取指定位置元素，支持负数
+ * @param arr
+ * @param index 可小于0
+ */
+export const getArrayEle = (arr, index) => {
+  if (index < 0 && arr.length + index >= 0) return arr[arr.length + index]
+  else if (index >= 0) return arr[index]
+  return undefined;
+}
+
+
 export {
   focusNode,
   checkNode,

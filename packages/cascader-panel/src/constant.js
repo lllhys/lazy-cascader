@@ -8,6 +8,7 @@ const DefaultProps = {
   disabled: 'disabled',
   lazy: false,
   lazyLoad: noop,
+  infiniteScroll: false,
   emitPath: true,
   multiple: false,
   checkStrictly: false,

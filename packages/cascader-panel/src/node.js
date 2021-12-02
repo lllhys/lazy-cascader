@@ -28,6 +28,8 @@ export default class Node {
     // lazy load
     this.loading = false
     this.loaded = false
+    this.pageNo = 0;
+    this.isEnd = false;
   }
 
   initChildren () {

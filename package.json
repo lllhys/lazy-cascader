@@ -1,13 +1,13 @@
 {
-  "name": "@vueblocks/elp-cascader",
-  "version": "0.1.10",
-  "description": "A vue component based on 'element-ui' and 'vue-virtual-scroller'",
+  "name": "@lllhys/lazy-cascader",
+  "version": "0.1.0",
+  "description": "A vue component based on 'element-ui' and 'vue-virtual-scroller' also add 'infinite-scroll'",
   "license": "MIT",
-  "main": "lib/elp-cascader.umd.min.js",
-  "homepage": "https://vueblocks.github.io/elp-cascader/",
-  "repository": "https://github.com/vueblocks/elp-cascader",
+  "main": "lib/lazy-cascader.umd.min.js",
   "keywords": [
     "vueblocks",
+    "infinite-scroll",
+    "lazy",
     "cascader",
     "vue",
     "element",
@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "serve": "vue-cli-service serve --open",
-    "build": "vue-cli-service build --target lib --dest lib --name elp-cascader packages/index.js",
+    "build": "vue-cli-service build --target lib --dest lib --name lazy-cascader packages/index.js",
     "lint": "vue-cli-service lint",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
     "storybook": "start-storybook -p 6006",

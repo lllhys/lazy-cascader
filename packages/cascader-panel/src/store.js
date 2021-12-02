@@ -27,7 +27,7 @@ export default class Store {
     this.leafNodes = this.getFlattedNodes(true, false)
   }
 
-  appendNodes (nodeDataList, parentNode) {
+  appendNodes (nodeDataList, parentNode,isInfiniteScroll=false) {
     nodeDataList = coerceTruthyValueToArray(nodeDataList)
     const children = parentNode ? parentNode.children : this.nodes
     const nodes = []
@@ -46,9 +46,10 @@ export default class Store {
       nodes.push(node)
     }
     if (parentNode) {
-      parentNode.children = Object.freeze(nodes)
+      parentNode.children = isInfiniteScroll? [...parentNode.children, ...Object.freeze(nodes)] : Object.freeze(nodes)
     } else {
-      this.nodes = Object.freeze(nodes)
+      this.nodes = isInfiniteScroll? [...this.nodes, ...Object.freeze(nodes)] : Object.freeze(nodes)
+
     }
   }
 

@@ -3,22 +3,23 @@
     <div class="elp-cascader-menu__wrap elp-cascader-menu__list">
       <div class="elp-search-check">
         <div v-if="labelAndCheckAllVisible" class="elp-search-check__check">
-          <div v-if="menuLabel">{{menuLabel}}</div>
+          <div v-if="menuLabel">{{ menuLabel }}</div>
           <el-checkbox
-            v-if="checkAllVisible"
-            :value="menuCheckState.checked"
-            :indeterminate="menuCheckState.indeterminate"
-            @change="onMenuCheck"
-          >全选</el-checkbox>
+              v-if="checkAllVisible"
+              :value="menuCheckState.checked"
+              :indeterminate="menuCheckState.indeterminate"
+              @change="onMenuCheck"
+          >全选
+          </el-checkbox>
         </div>
         <div v-if="searchVisible" style="padding: 5px 20px">
           <el-input
-            clearable
-            v-model.trim="keyWordsTemp"
-            placeholder="请输入内容"
-            size="small"
-            suffix-icon="el-icon-search"
-            @input="handleSearchInput"
+              clearable
+              v-model.trim="keyWordsTemp"
+              placeholder="请输入内容"
+              size="small"
+              suffix-icon="el-icon-search"
+              @input="handleSearchInput"
           />
         </div>
       </div>
@@ -31,15 +32,18 @@
           :buffer="100"
           :items="filterNodes"
           :item-size="34"
+          :emitUpdate="emitUpdate"
           key-field="value"
-          :style="{ height: scrollHeight }">
+          :style="{ height: scrollHeight }"
+          @update="throttledScrollHandler"
+      >
         <cascader-node
-          :key="item.uid"
-          :node="item"
-          :node-id="`${menuId}-${index}`"
-          :aria-haspopup="item.hasChildren"
-          :aria-owns="item.hasChildren ? menuId : null"
-          @expand="isHover && handleExpand"
+            :key="item.uid"
+            :node="item"
+            :node-id="`${menuId}-${index}`"
+            :aria-haspopup="item.hasChildren"
+            :aria-owns="item.hasChildren ? menuId : null"
+            @expand="isHover && handleExpand"
         />
       </recycle-scroller>
       <svg
@@ -53,13 +57,14 @@
 
 <script>
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
-import { RecycleScroller } from 'vue-virtual-scroller'
+import {RecycleScroller} from 'vue-virtual-scroller'
 import ElInput from 'element-ui/packages/input'
-import { coerceTruthyValueToArray } from 'element-ui/src/utils/util'
+import {coerceTruthyValueToArray} from 'element-ui/src/utils/util'
 
 import CascaderNode from './cascader-node.vue'
 import ElCheckbox from 'element-ui/packages/checkbox'
 import debounce from 'throttle-debounce/debounce'
+import {throttle} from "throttle-debounce";
 
 export default {
   name: 'ElpCascaderMenu',
@@ -85,8 +90,9 @@ export default {
     }
   },
 
-  data () {
+  data() {
     return {
+      loading: false,
       activeNode: null,
       hoverTimer: null,
       searchKey: '',
@@ -99,50 +105,61 @@ export default {
   },
 
   computed: {
-    config () {
+    config() {
       return this.panel.config
     },
-    isEmpty () {
+    isEmpty() {
       return !this.filterNodes.length
     },
-    menuId () {
+    menuId() {
       return `cascader-menu-${this.index}`
     },
-    isHover () {
+    isHover() {
       return this.panel.isHoverMenu
     },
-    filterNodes () { // 经搜索词过滤后的node节点
+    filterNodes() { // 经搜索词过滤后的node节点
       if (!this.searchKey) return this.nodes
       return this.nodes.filter(node => node.label.includes(this.searchKey))
     },
-    menuLabel () {
+    menuLabel() {
       let _labels = coerceTruthyValueToArray(this.config.panelLabels)
       return _labels[this.index]
     },
-    checkAllVisible () {
+    checkAllVisible() {
       return this.config.checkStrictly && this.config.multiple && !this.config.lazyMultiCheck && this.config.checkAll
     },
-    labelAndCheckAllVisible () {
+    labelAndCheckAllVisible() {
       return this.menuLabel || this.checkAllVisible
     },
-    searchVisible () {
+    searchVisible() {
       return this.config.panelSearch
     },
-    scrollHeight () {
+    scrollHeight() {
       const labelAndCheckAllHeight = this.labelAndCheckAllVisible ? 30 : 0
       const searchHeight = this.searchVisible ? 42 : 0
-      return `calc(100% - ${ labelAndCheckAllHeight + searchHeight }px)`
+      return `calc(100% - ${labelAndCheckAllHeight + searchHeight}px)`
+    },
+    emitUpdate() {
+      const config = this.panel.config;
+      const isEnd = this.index === 0
+          ? this.panel.rootNode.isEnd
+          : (this.isEmpty ? true : this.filterNodes[0].parent.isEnd)
+      console.log(isEnd)
+      return !isEnd && config.lazy && config.infiniteScroll;
+    },
+    throttledScrollHandler() {
+      return throttle(400, false, this.handleUpdate)
     }
   },
   watch: {
     'panel.checkedValue': {
-      handler () {
+      handler() {
         this.setMenuCheckedVal()
       },
       deep: true
     },
     'panel.activePath': {
-      handler () {
+      handler() {
         this.setMenuCheckedVal()
       },
       deep: true,
@@ -150,21 +167,28 @@ export default {
     }
   },
   methods: {
-    handleExpand (e) {
+    handleUpdate(start, end) {
+      // 此处进行数据加载判断
+      // console.log(start, end, this.nodes, this.searchKey)
+      if (end > this.nodes.length - 3) {
+        this.panel.handleScrollLoad(this.index)
+      }
+    },
+    handleExpand(e) {
       this.activeNode = e.target
     },
-    handleMouseMove (e) {
-      const { activeNode, hoverTimer } = this
-      const { hoverZone } = this.$refs
+    handleMouseMove(e) {
+      const {activeNode, hoverTimer} = this
+      const {hoverZone} = this.$refs
 
       if (!activeNode || !hoverZone) return
 
       if (activeNode.contains(e.target)) {
         clearTimeout(hoverTimer)
 
-        const { left } = this.$el.getBoundingClientRect()
+        const {left} = this.$el.getBoundingClientRect()
         const startX = e.clientX - left
-        const { offsetWidth, offsetHeight } = this.$el
+        const {offsetWidth, offsetHeight} = this.$el
         const top = activeNode.offsetTop
         const bottom = top + activeNode.offsetHeight
 
@@ -176,12 +200,12 @@ export default {
         this.hoverTimer = setTimeout(this.clearHoverZone, this.panel.config.hoverThreshold)
       }
     },
-    clearHoverZone () {
-      const { hoverZone } = this.$refs
+    clearHoverZone() {
+      const {hoverZone} = this.$refs
       if (!hoverZone) return
       hoverZone.innerHTML = ''
     },
-    setMenuCheckedVal () {
+    setMenuCheckedVal() {
       if (!this.checkAllVisible) return
       const totalNum = this.filterNodes.filter(it => !it.isDisabled).length
       const checkedNum = this.filterNodes.reduce((c, p) => {
@@ -193,9 +217,11 @@ export default {
         indeterminate: checkedNum > 0 && checkedNum !== totalNum
       }
     },
-    onMenuCheck (checked) {
+    onMenuCheck(checked) {
       // 标识已选中的标签
-      this.filterNodes.forEach(node => { !node.isDisabled && node.doCheck(checked) })
+      this.filterNodes.forEach(node => {
+        !node.isDisabled && node.doCheck(checked)
+      })
       this.panel.calculateMultiCheckedValue()
     },
     handleSearchInput: debounce(300, function (searchWords = '') {
