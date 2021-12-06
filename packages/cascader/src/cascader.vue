@@ -77,7 +77,7 @@
               'el-popper',
                popperClass
           ]">
-        <elp-cascader-panel
+        <lazy-cascader-panel
             ref="panel"
             v-show="!filtering"
             v-model="checkedValue"
@@ -138,14 +138,14 @@ import { isEqual, isEmpty, kebabCase } from 'element-ui/src/utils/util'
 import { addResizeListener, removeResizeListener } from 'element-ui/src/utils/resize-event'
 
 import 'elp-cascader/packages/theme/cascader.less'
-import ElpCascaderPanel from 'elp-cascader/packages/cascader-panel'
+import LazyCascaderPanel from 'elp-cascader/packages/cascader-panel'
 import { MigratingProps, PopperMixin, InputSizeMap } from './constant'
 import debounce from 'throttle-debounce/debounce'
 
 const { keys: KeyCode } = AriaUtils
 
 export default {
-  name: 'ElpCascader',
+  name: 'LazyCascader',
 
   directives: { Clickoutside },
 
@@ -164,7 +164,7 @@ export default {
     ElTag,
     ElInput,
     Scrollbar,
-    ElpCascaderPanel
+    LazyCascaderPanel
   },
 
   props: {

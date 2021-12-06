@@ -67,7 +67,7 @@ import debounce from 'throttle-debounce/debounce'
 import {throttle} from "throttle-debounce";
 
 export default {
-  name: 'ElpCascaderMenu',
+  name: 'LazyCascaderMenu',
 
   inject: ['panel'],
 
@@ -144,7 +144,7 @@ export default {
       const isEnd = this.index === 0
           ? this.panel.rootNode.isEnd
           : (this.isEmpty ? true : this.filterNodes[0].parent.isEnd)
-      console.log(isEnd)
+      // console.log(isEnd)
       return !isEnd && config.lazy && config.infiniteScroll;
     },
     throttledScrollHandler() {

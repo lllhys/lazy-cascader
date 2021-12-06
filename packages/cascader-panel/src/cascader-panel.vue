@@ -42,7 +42,7 @@ import 'elp-cascader/packages/theme/cascader-panel.less'
 const {keys: KeyCode} = AriaUtils
 
 export default {
-  name: 'ElpCascaderPanel',
+  name: 'LazyCascaderPanel',
 
   components: {CascaderMenu},
 
@@ -270,7 +270,7 @@ export default {
       node.pageNo++;
       node.loading = true
       const resolve = data => {
-        console.log(data);
+        // console.log(data);
         let dataList = data;
         if (this.isInfiniteScroll) {
           dataList = data.list;
@@ -318,7 +318,7 @@ export default {
     },
 
     handleScrollLoad(menuId, onFullfiled) {
-      console.log('loading ')
+      // console.log('loading ')
       const node = menuId === 0
           ? this.rootNode
           : getArrayEle(this.activePath, menuId - 1)
@@ -328,7 +328,7 @@ export default {
       node.pageNo++;
       node.loading = true
       const resolve = data => {
-        console.log(data);
+        // console.log(data);
         const dataList = data.list;
         node.isEnd = !!data.isEnd;
         const parent = node.root ? null : node
@@ -338,7 +338,7 @@ export default {
         menus[menuId] = !parent ? this.store.getNodes() : parent.children;
         this.menus = menus
         // this.menus = [this.store.getNodes(), ...this.generateExcessMenus(this.menus.length)]
-        console.log(this.menus)
+        // console.log(this.menus)
         node.loading = false
         node.loaded = true
 
@@ -354,7 +354,7 @@ export default {
      */
     calculateMultiCheckedValue() {
       this.checkedValue = this.getCheckedNodes(this.leafOnly).map(node => node.getValueByOption())
-      console.log(this.checkedValue)
+      // console.log(this.checkedValue)
     },
     scrollIntoView() {
       if (this.$isServer) return

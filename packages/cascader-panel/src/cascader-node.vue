@@ -6,7 +6,7 @@ import { isEqual } from 'element-ui/src/utils/util'
 const stopPropagation = e => e.stopPropagation()
 
 export default {
-  name: 'ElpCascaderNode',
+  name: 'LazyCascaderNode',
 
   inject: ['panel'],
 
