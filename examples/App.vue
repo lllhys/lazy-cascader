@@ -1,11 +1,14 @@
 <template>
   <div id="app">
-    <cascader :props="props" :options="options" size="small" collapse-tags filterable clearable style="width: 400px" />
-    <!--    <cascader-panel-->
-    <!--        :options="options"-->
-    <!--        :props="props"-->
-    <!--        style="margin: 200px 0"-->
-    <!--    />-->
+    <cascader :props="props" :options="options" size="small" collapse-tags filterable clearable style="width: 400px"/>
+
+
+<!--    <cascader-panel-->
+<!--        :options="options"-->
+<!--        :props="props"-->
+<!--        style="margin: 200px 0;width: 400px"-->
+<!--    />-->
+
     <cascader
         v-model="lazyValue"
         :props="lazyProps"
@@ -28,24 +31,22 @@
 
 <script>
 import Mock from 'mockjs'
-import ElpCascader from 'elp-cascader/packages'
-// import ElpCascader from '../packages'
-// import { CascaderPanel } from 'element-ui'
+import LazyCascader from 'elp-cascader/packages'
 
 const {
-  Cascader
+  Cascader,
   // CascaderPanel
-} = ElpCascader
+} = LazyCascader
 
 let id = 0
 
 export default {
   name: 'APP',
   components: {
-    Cascader
+    Cascader,
     // CascaderPanel,
   },
-  data () {
+  data() {
     console.log('Mock Start')
     console.time('MockStart')
     const _mock = Mock.mock({
@@ -90,11 +91,11 @@ export default {
         panelSearch: true,
         panelLabels: ['一级类目', '二级类目', '三级类目'],
         lazy: true,
-        lazyLoad (node, resolve) {
+        lazyLoad(node, resolve) {
 
-          const { level } = node
+          const {level} = node
           setTimeout(() => {
-            const nodes = Array.from({ length: level + 11 }).map(() => ({
+            const nodes = Array.from({length: level + 11}).map(() => ({
               value: String(++id),
               label: `选项${id}`,
               // disabled: true,
@@ -123,10 +124,10 @@ export default {
         checkStrictly: false,
         lazyMultiCheck: true,
         panelLabels: ['一级类目', '二级类目', '三级类目'],
-        lazyLoad (node, resolve) {
-          const { level } = node
+        lazyLoad(node, resolve) {
+          const {level} = node
           setTimeout(() => {
-            const nodes = Array.from({ length: level + 1 }).map(() => ({
+            const nodes = Array.from({length: level + 1}).map(() => ({
               value: String(++id),
               label: `选项${id}`,
               leaf: level >= 3
@@ -144,11 +145,11 @@ export default {
         panelSearch: true,
         checkAll: true,
         panelLabels: ['数据连接', '分类', '数据源'],
-        lazyLoad (node, resolve) {
+        lazyLoad(node, resolve) {
           console.log('aaaaaa', node)
-          const { level } = node
+          const {level} = node
           setTimeout(() => {
-            const nodes = Array.from({ length: level + 11 }).map(() => ({
+            const nodes = Array.from({length: level + 11}).map(() => ({
               value: String(++id),
               label: `选项${id}`,
               // disabled: true,
@@ -163,7 +164,7 @@ export default {
     }
   },
   methods: {
-    expandChange (parentArr) {
+    expandChange(parentArr) {
       console.info(parentArr)
     }
   }

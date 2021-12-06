@@ -1,8 +1,8 @@
-import './../lib/elp-cascader.css'
-import ElpCascader from './../lib/elp-cascader.umd.min.js'
+import './../lib/lazy-cascader.css'
+import LazyCascader from './../lib/lazy-cascader.umd.min'
 import Mock from 'mockjs'
 
-const { CascaderPanel } = ElpCascader
+const { CascaderPanel } = LazyCascader
 // 模拟整棵树
 const MockTree = Mock.mock({
   'array|100': [
@@ -33,6 +33,17 @@ const MockNode = Mock.mock({
     }
   ]
 })
+
+// 模拟单个节点
+const MockNodeLess = Mock.mock({
+  'array|15': [
+    {
+      label: '@csentence(6)',
+      value: '@string()'
+    }
+  ]
+})
+
 
 export default {
   title: 'Example/CascaderPanel',
@@ -70,6 +81,7 @@ Base.args = {
   size: 'medium',
   separator: '/',
   placeholder: '请选择',
+  visible: true,
   'show-all-levels': true,
   options: MockTree.array
 }
@@ -104,6 +116,35 @@ LazyAndMulti.args = {
     lazyMultiCheck: true,
     lazyLoad (node, resolve) {
       setTimeout(_ => { resolve(MockNode) }, 1000)
+    }
+  }
+}
+
+/**
+ * 远程&懒加载
+ */
+export const LazyPagination = Template.bind({})
+LazyPagination.args = {
+  ...Base.args,
+  options: MockNodeLess.array,
+  placeholder: '懒加载时分页请求数据（开启无限滚动）',
+  props: {
+    lazy: true,
+    infiniteScroll: true,
+    selectWithExpand: false,
+    lazyLoad(node, resolve) {
+      // console.log('aasdfsfasfadfadsf')
+      setTimeout(_ => {
+        const newData = Mock.mock({
+          'array|15': [
+            {
+              label: '@csentence(6)',
+              value: '@string()'
+            }
+          ]
+        })
+        resolve({list: newData.array, isEnd: node.pageNo === 2})
+      }, 1000)
     }
   }
 }

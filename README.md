@@ -2,9 +2,9 @@
     <h3 align="center">lazy-cascader</h3>
     <br>
     <p align="center">
-        <a href="https://www.npmjs.com/package/@lllhys/lazy-cascader"><img src="https://img.shields.io/npm/v/@vueblocks/elp-cascader?maxAge=2592000"></a>
-        <a href="https://www.npmjs.com/package/@lllhys/lazy-cascader"><img src="https://img.shields.io/npm/dt/@vueblocks/elp-cascader"></a>
-        <a href="https://github.com/vueblocks/elp-cascader/stargazers"><img src="https://img.shields.io/github/stars/vueblocks/elp-cascader.svg"></a>
+        <a href="https://www.npmjs.com/package/@lllhys/lazy-cascader"><img src="https://img.shields.io/npm/v/@lllhys/lazy-cascader?maxAge=2592000"></a>
+        <a href="https://www.npmjs.com/package/@lllhys/lazy-cascader"><img src="https://img.shields.io/npm/dt/@lllhys/lazy-cascader"></a>
+        <a href="https://github.com/llllhy/lazy-cascader/stargazers"><img src="https://img.shields.io/github/stars/vueblocks/elp-cascader.svg"></a>
     </p>
     <p align="center">
        Cascader based on 'element-ui' and 'vue-virtual-scroller'<br>
@@ -13,7 +13,7 @@
 
 # @lllhys/lazy-cascader
 
-> fork至[vueblocks/elp-cascader](<https://github.com/vueblocks/elp-cascader>), 并添加了infinite scroll。
+> fork于[vueblocks/elp-cascader](<https://github.com/vueblocks/elp-cascader>), 并添加了infinite scroll。
 
 
 > 基于`element-ui`和`vue-virtual-scroller`的级联选择器，用虚拟列表的方式逐级渲染列表。适用于数据量较大的场景。
@@ -37,9 +37,9 @@ yarn add @lllhys/lazy-cascader
 在main.js中写入下面的代码
 
 ```javascript
-import '@lllhys/lazy-cascader/lib/elp-cascader.css'
-import ElpCascader from '@lllhys/lazy-cascader'
-Vue.use(ElpCascader)
+import '@lllhys/lazy-cascader/lib/lazy-cascader.css'
+import LazyCascader from '@lllhys/lazy-cascader'
+Vue.use(LazyCascader)
 ```
 
 页面中直接使用
@@ -47,8 +47,8 @@ Vue.use(ElpCascader)
 ```html
 <template>
   <div id="app">
-    <elp-cascader v-model="value" :options="options" />
-    <elp-cascader-panel v-model="value" :options="options" />
+    <lazy-cascader v-model="value" :options="options" />
+<!--    <lazy-cascader-panel v-model="value" :options="options" />-->
   </div>
 </template>
 
