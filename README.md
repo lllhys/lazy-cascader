@@ -18,11 +18,11 @@
 
 > 基于`element-ui`和`vue-virtual-scroller`的级联选择器，用虚拟列表的方式逐级渲染列表。适用于数据量较大的场景。
 
-[Demo](<https://vueblocks.github.io/elp-cascader/>)
+[Demo](<https://llllhy.github.io/lazy-cascader/>)
 
 ## 效果预览
 
-![elp-cascader](./demo.gif)
+![lazy-cascader](./demo.gif)
 
 ## install 安装
 
