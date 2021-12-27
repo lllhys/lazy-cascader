@@ -1,6 +1,6 @@
 {
   "name": "@lllhys/lazy-cascader",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A vue component based on 'element-ui' and 'vue-virtual-scroller' also add 'infinite-scroll'",
   "license": "MIT",
   "main": "lib/lazy-cascader.umd.min.js",
