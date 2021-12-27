@@ -22,16 +22,20 @@
         :props="lazyMutiProps"
         :options="options"
         filterable
+        collapse-tags
         style="margin: 100px 0;width: 400px"
         @expand-change="expandChange"
     />
 
+    <el-button @click="clear">clear</el-button>
+<!--    <button @onclick="clear" >clear</button>-->
   </div>
 </template>
 
 <script>
 import Mock from 'mockjs'
 import LazyCascader from 'elp-cascader/packages'
+
 
 const {
   Cascader,
@@ -44,6 +48,7 @@ export default {
   name: 'APP',
   components: {
     Cascader,
+
     // CascaderPanel,
   },
   data() {
@@ -142,9 +147,9 @@ export default {
         infiniteScroll: true,
         multiple: true,
         // checkStrictly: true,
-        panelSearch: true,
-        checkAll: true,
-        panelLabels: ['数据连接', '分类', '数据源'],
+        // panelSearch: true,
+        // checkAll: true,
+        // panelLabels: ['数据连接', '分类', '数据源'],
         lazyLoad(node, resolve) {
           console.log('aaaaaa', node)
           const {level} = node
@@ -153,7 +158,7 @@ export default {
               value: String(++id),
               label: `选项${id}`,
               // disabled: true,
-              leaf: level >= 3
+              leaf: level >= 1
             }))
             // resolve(nodes)
             // 通过调用resolve将子节点数据返回，通知组件数据加载完成
@@ -166,6 +171,10 @@ export default {
   methods: {
     expandChange(parentArr) {
       console.info(parentArr)
+    },
+    clear() {
+      console.log('aasdfasdfasdf')
+      this.lazyCheck = [];
     }
   }
 }

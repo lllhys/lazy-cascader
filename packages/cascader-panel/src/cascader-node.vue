@@ -188,7 +188,7 @@ export default {
           : null
 
       return (
-          <span class="elp-cascader-node__label">{vnode || node.label}</span>
+          <span class="elp-cascader-node__label" title={vnode || node.label}>{vnode || node.label}</span>
       )
     }
   },
